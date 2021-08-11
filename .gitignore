@@ -1,2 +1,8 @@
 .vscode/
 tmp/
+spark-*/
+spark-*.tgz
+.bsp/
+target/
+data/
+bin/

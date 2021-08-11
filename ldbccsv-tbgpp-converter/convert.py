@@ -1,24 +1,31 @@
 import csv
 import os
+import sys
+
 
 def convert():
 	
 	# Configuration
-	target = "P2P" # P2P/P2C
+	#target = "P2P" # P2P/P2C
+	target = sys.argv[1]
 	assert target == "P2P" or target == "P2C"
+
 	# Input
-	input_filedir = "/home/tslee/ldbc_snb_datagen/out/csv/interactive/composite-projected-fk/dynamic/Person_knows_Person/"
-	input_filename = "part-00000-2b835fb1-4b41-4fbc-a890-4969a25e7d28-c000.csv"
-	input_filepath = input_filedir + input_filename
+	#input_filedir = "/home/tslee/ldbc_snb_datagen/out/csv/interactive/composite-projected-fk/dynamic/Person_knows_Person/"
+	#input_filename = "part-00000-2b835fb1-4b41-4fbc-a890-4969a25e7d28-c000.csv"
+	#input_filepath = input_filedir + input_filename
+	input_filepath = sys.argv[2]
+
 	# Output
-	output_filedir = "/home/tslee/jhko/tbgpp-partitioning/ldbccsv-tbgpp-converter/tmp/"
-	output_filepath = output_filedir + target
+	#output_filedir = "/home/tslee/jhko/tbgpp-partitioning/ldbccsv-tbgpp-converter/tmp/"
+	#output_filepath = output_filedir + target
+	output_filepath = sys.argv[3]
 
 	# Validate input / output
 	if not os.path.isfile(input_filepath):
 		print("No input file")
 		exit(1)
-	if not os.path.exists(output_filedir):
+	if not os.path.exists(os.path.dirname(output_filepath)):
 		print("Output dir does not exist")
 		exit(1)
 	if os.path.isfile(output_filepath):
@@ -34,8 +41,8 @@ def convert():
 
 			for idx, row in enumerate(reader):
 				readcnt = idx+1
-				if idx == 0 :	# del first row
-					continue
+				# if idx == 0 :	# del first row
+				# 	continue
 
 				if target == "P2P":
 					assert( len(row) == 3 )
@@ -53,5 +60,6 @@ def convert():
 	assert readcnt == writecnt + 1 , "Wrong size written"
 
 if __name__ == "__main__":
+	assert len(sys.argv) == 4
 	convert()
 	exit(0)
