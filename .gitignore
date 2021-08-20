@@ -6,3 +6,5 @@ spark-*.tgz
 target/
 data/
 bin/
+tmp*/
+logs/

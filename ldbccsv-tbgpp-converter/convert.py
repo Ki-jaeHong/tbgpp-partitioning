@@ -8,17 +8,12 @@ def convert():
 	# Configuration
 	#target = "P2P" # P2P/P2C
 	target = sys.argv[1]
-	assert target == "P2P" or target == "P2C"
+	assert target == "P2P" or target == "P2C" or "Place2Place"
 
 	# Input
-	#input_filedir = "/home/tslee/ldbc_snb_datagen/out/csv/interactive/composite-projected-fk/dynamic/Person_knows_Person/"
-	#input_filename = "part-00000-2b835fb1-4b41-4fbc-a890-4969a25e7d28-c000.csv"
-	#input_filepath = input_filedir + input_filename
 	input_filepath = sys.argv[2]
 
 	# Output
-	#output_filedir = "/home/tslee/jhko/tbgpp-partitioning/ldbccsv-tbgpp-converter/tmp/"
-	#output_filepath = output_filedir + target
 	output_filepath = sys.argv[3]
 
 	# Validate input / output
@@ -41,8 +36,6 @@ def convert():
 
 			for idx, row in enumerate(reader):
 				readcnt = idx+1
-				# if idx == 0 :	# del first row
-				# 	continue
 
 				if target == "P2P":
 					assert( len(row) == 3 )
@@ -53,11 +46,16 @@ def convert():
 					assert( len(row) == 3 )
 					writer.writerow( [ str(row[1]), str(row[2]) ])
 					writecnt += 1
+
+				if target == "Place2Place":
+					assert( len(row) == 2 )
+					writer.writerow( [ str(row[0]), str(row[1]) ])
+					writecnt += 1
 		
 		fout.close()
 	f.close()
 
-	assert readcnt == writecnt + 1 , "Wrong size written"
+	assert readcnt == writecnt , "Wrong size written"
 
 if __name__ == "__main__":
 	assert len(sys.argv) == 4

@@ -1,16 +1,19 @@
-# convert to graph format (P2P only)
-convert.py P2P input_filename output_filename
+function exitIfExecutionFailed() {
+	if [ $1 -ne 0 ]; then
+   		echo "Fail execution... Now exiting"
+   		exit 1
+	fi
+}
 
-# csv to binary
-/mnt/penfolds/tools/edgelisttxt-to-edgelist8B \
- /home/tslee/jhko/tbgpp-partitioning/ldbccsv-tbgpp-converter/tmp/P2P \
- /home/tslee/jhko/tbgpp-partitioning/tmp/P2P_bin
+# [INFO] run spark program to change vids
+# TODO call spark !!!!!
 
-# split binary files
-# TODO
+echo "[INFO] proceed step 1, 2 of partition-copart"
 
-# distribute binary files
-# TODO
+echo "[INFO] run bbp over machines"
+# TODO set machine environment in the file
+# source /home/tslee/jhko/Turbograph_jhko_partitioning/set_environment.sh
+# ./run-bbp.sh
+# exitIfExecutionFailed $?
 
-# run bbp over machines
-# TODO
+echo "[INFO] proceed from step 3 of partition-copart"
