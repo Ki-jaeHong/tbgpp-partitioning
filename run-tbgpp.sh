@@ -10,15 +10,12 @@ nodeIdStart=001
 nodeIdEnd=005
 
 # DropPageCache before execution
-for i in $(seq -f "%03g" $nodeIdStart $nodeIdEnd); do
-	ssh citeb${i} -n "/mnt/data2/jhko/tools/DropPageCache"
-	echo "machine ${i} : PageCache Dropped (status $?)"
-done
+clush -w citeb[${nodeIdStart}-${nodeIdEnd}] "/mnt/data2/jhko/tools/DropPageCache"
 
 # Execute
 cd /home/tslee/jhko/Turbographpp_sigmod2
 . /home/tslee/jhko/Turbograph_jhko_partitioning/set_environment.sh	# source environment
 
-./run-itbgpp-experiments.sh debug overall ins 0 "Debug" 001-005
+./run-itbgpp-experiments.sh debug overall ins 10 "Debug" 001-005
 
 echo "[INFO] Done."

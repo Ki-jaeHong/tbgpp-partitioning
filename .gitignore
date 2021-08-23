@@ -3,6 +3,7 @@ tmp/
 spark-*/
 spark-*.tgz
 .bsp/
+!*.jar
 target/
 data/
 tmp*/
