@@ -253,7 +253,7 @@ while read -u ${FD_GRAPH} graph; do
 	I_MPI_EAGER_THRESHOLD=2097152 \
     MALLOC_CONF="narenas:4" \
     #perf record -g -e cpu-cycles:u -o ./perf_test.txt mpiexec.hydra -genvall -machinefile ${machine_file} ${BIN_PATH} ${CONF_PATH}
-    mpiexec.hydra -genvall -machinefile ${machine_file} ${BIN_PATH} ${CONF_PATH} & > ${log_file_path}
+    mpiexec.hydra -genvall -machinefile ${machine_file} ${BIN_PATH} ${CONF_PATH} &> ${log_file_path}
 
 	#sleep 3
     # FIXME remove tmpfile

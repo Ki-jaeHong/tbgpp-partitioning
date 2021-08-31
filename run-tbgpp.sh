@@ -16,6 +16,7 @@ clush -w citeb[${nodeIdStart}-${nodeIdEnd}] "/mnt/data2/jhko/tools/DropPageCache
 cd /home/tslee/jhko/Turbographpp_sigmod2
 . /home/tslee/jhko/Turbograph_jhko_partitioning/set_environment.sh	# source environment
 
+# file / debug / ? / insertion only / version / string prefix / machine
 ./run-itbgpp-experiments.sh debug overall ins 10 "Debug" 001-005
 
 echo "[INFO] Done."

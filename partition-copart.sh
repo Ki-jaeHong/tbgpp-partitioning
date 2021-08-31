@@ -154,7 +154,7 @@ checkProceed $step $STEP_START $STEP_STOP
 if [[ $? -eq 1 ]]; then 
 	echo "[INFO] step 2 - distribute binary files"
 	inputdir=/home/tslee/jhko/tbgpp-partitioning/tmp/${LOCAL_FILES_BINDATA_FOLDER}
-	outputdir="/mnt/data2/jhko/partitioning/${DB_FOLDER_PREFIX}_v${LOG_V}_e${LOG_E}_bin_edgelist/${BIN_SUBDIR}/"
+	outputdir="/mnt/data2/jhko/partitioning/${DB_FOLDER_PREFIX}_v${LOG_V}_e${LOG_E}/${BIN_SUBDIR}/"
 	rank=0
 	for i in $(seq -f "%03g" $MACHINE_ID_START $MACHINE_ID_END); do
 			for j in {0..$NUM_PART_PER_NODE}; do
