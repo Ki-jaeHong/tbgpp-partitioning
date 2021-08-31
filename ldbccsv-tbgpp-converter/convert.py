@@ -1,7 +1,10 @@
 import csv
 import os
 import sys
+from itertools import islice
 
+
+BATCH_LINES=65536
 
 def convert():
 	
@@ -33,25 +36,30 @@ def convert():
 		with open(output_filepath, 'w', newline='') as fout:
 			reader = csv.reader(f, delimiter='|')
 			writer = csv.writer(fout, delimiter='\t')
-
-			for idx, row in enumerate(reader):
-				readcnt = idx+1
-
-				if target == "P2P":
-					assert( len(row) == 3 )
-					writer.writerow([ str(row[1]), str(row[2]) ])
-					writecnt += 1
-
-				if target == "P2C":
-					assert( len(row) == 3 )
-					writer.writerow( [ str(row[1]), str(row[2]) ])
-					writecnt += 1
-
-				if target == "Place2Place":
-					assert( len(row) == 2 )
-					writer.writerow( [ str(row[0]), str(row[1]) ])
-					writecnt += 1
 		
+			for lines in iter(lambda: tuple(islice(reader, BATCH_LINES)), ()):
+				
+				write_buffer = []
+				for idx, row in enumerate(lines):
+					readcnt = readcnt + 1
+
+					if target == "P2P":
+						assert( len(row) == 3 )
+						write_buffer.append( [ str(row[1]), str(row[2]) ] )
+						writecnt += 1
+
+					if target == "P2C":
+						assert( len(row) == 3 )
+						write_buffer.append( [ str(row[1]), str(row[2]) ] )
+						writecnt += 1
+
+					if target == "Place2Place":
+						assert( len(row) == 2 )
+						write_buffer.append( [ str(row[0]), str(row[1]) ] )
+						writecnt += 1
+				
+				writer.writerows( write_buffer )
+			
 		fout.close()
 	f.close()
 

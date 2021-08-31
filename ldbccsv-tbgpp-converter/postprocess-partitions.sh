@@ -23,40 +23,41 @@ function mergePartition {
 	done
 }
 
-# TODO write SF
-SF=1000
+# TODO write data path
+RAW_FILES_BASEPATH=/mnt/sdd1/jhko/ldbc-datagen/out-SF1000
+MERGED_BASEPATH=/mnt/sdd1/jhko/ldbc-datagen/SF1000
 
 echo "[INFO] Postprocess partitions"
-mkdir /mnt/sdd1/jhko/ldbc-datagen/SF${SF}
+mkdir $MERGED_BASEPATH
 mergePartition \
- 	/mnt/sdd1/jhko/ldbc-datagen/out-SF${SF}/out/csv/interactive/composite-projected-fk/dynamic/Person_knows_Person/ \
-	/mnt/sdd1/jhko/ldbc-datagen/SF${SF}/P2P_raw.txt
+ 	$RAW_FILES_BASEPATH/out/csv/interactive/composite-projected-fk/dynamic/Person_knows_Person/ \
+	$MERGED_BASEPATH/P2P_raw.txt
 exitIfExecutionFailed $?
 
 mergePartition \
- 	/mnt/sdd1/jhko/ldbc-datagen/out-SF${SF}/out/csv/interactive/composite-projected-fk/dynamic/Person_isLocatedIn_Place/ \
-	/mnt/sdd1/jhko/ldbc-datagen/SF${SF}/P2C_raw.txt
+ 	$RAW_FILES_BASEPATH/out/csv/interactive/composite-projected-fk/dynamic/Person_isLocatedIn_Place/ \
+	$MERGED_BASEPATH/P2C_raw.txt
 exitIfExecutionFailed $?
 
 mergePartition \
-	/mnt/sdd1/jhko/ldbc-datagen/out-SF${SF}/out/csv/interactive/composite-projected-fk/static/Place_isPartOf_Place/	\
-	/mnt/sdd1/jhko/ldbc-datagen/SF${SF}/Place2Place_raw.txt
+	$RAW_FILES_BASEPATH/out/csv/interactive/composite-projected-fk/static/Place_isPartOf_Place/	\
+	$MERGED_BASEPATH/Place2Place_raw.txt
 exitIfExecutionFailed $?
 
 echo "[INFO] Convert to graph format"
 python3 ./convert.py P2P \
-	/mnt/sdd1/jhko/ldbc-datagen/SF${SF}/P2P_raw.txt \
-	/mnt/sdd1/jhko/ldbc-datagen/SF${SF}/P2P.txt
+	$MERGED_BASEPATH/P2P_raw.txt \
+	$MERGED_BASEPATH/P2P.txt
 exitIfExecutionFailed $?
 
 python3 ./convert.py P2C \
-	/mnt/sdd1/jhko/ldbc-datagen/SF${SF}/P2C_raw.txt \
-	/mnt/sdd1/jhko/ldbc-datagen/SF${SF}/P2C.txt
+	$MERGED_BASEPATH/P2C_raw.txt \
+	$MERGED_BASEPATH/P2C.txt
 exitIfExecutionFailed $?
 
 python3 ./convert.py Place2Place	\
-	/mnt/sdd1/jhko/ldbc-datagen/SF${SF}/Place2Place_raw.txt	\
-	/mnt/sdd1/jhko/ldbc-datagen/SF${SF}/Place2Place.txt
+	$MERGED_BASEPATH/Place2Place_raw.txt	\
+	$MERGED_BASEPATH/Place2Place.txt
 exitIfExecutionFailed $?
 
 echo "[INFO] Done."
